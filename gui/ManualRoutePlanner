@@ -1,0 +1,1056 @@
+package route;
+
+/**
+*
+*/
+import javax.swing.UIManager.LookAndFeelInfo;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import javax.swing.border.Border;
+import javax.swing.*;
+
+
+public class ManualRoutePlanner extends JFrame {
+    private Routeplanner routeplanner;
+    
+    private JMenuBar menuBar;
+    private JButton button1;
+    private JButton button10;
+    private JButton button11;
+    private JButton button12;
+    private JButton button13;
+    private JButton button14;
+    private JButton button15;
+    private JButton button16;
+    private JButton button17;
+    private JButton button18;
+    private JButton button19;
+    private JButton button2;
+    private JButton button20;
+    private JButton button21;
+    private JButton button22;
+    private JButton button23;
+    private JButton button24;
+    private JButton button25;
+    private JButton button26;
+    private JButton button27;
+    private JButton button28;
+    private JButton button29;
+    private JButton button3;
+    private JButton button30;
+    private JButton button31;
+    private JButton button32;
+    private JButton button33;
+    private JButton button34;
+    private JButton button35;
+    private JButton button36;
+    private JButton button4;
+    private JButton button5;
+    private JButton button6;
+    private JButton button7;
+    private JButton button8;
+    private JButton button9;
+    private JButton button37;
+    private JButton button38;
+    private JButton button39;
+    
+    private int intx;
+    private int inty;
+    private int intbx;
+    private int intby;
+    
+    
+    
+    //Constructor 
+    public ManualRoutePlanner(){
+        final Routeplanner routeplanner = new Routeplanner(10,10);
+        intx =  10;
+        inty =  10;
+        intbx = 10;
+        intby = 10;
+        
+        
+        
+        
+        setTitle("ManualRoutePlanner");
+        setSize(697,598);
+
+
+
+        //pane with null layout
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(697,598));
+        contentPane.setBackground(new Color(255,255,204));
+
+
+        button1 = new JButton();
+        button1.setBounds(5,5,90,35);
+        button1.setBackground(new Color(214,217,223));
+        button1.setForeground(new Color(0,0,0));
+        button1.setEnabled(true);
+        button1.setFont(new Font("sansserif",0,12));
+        button1.setText("0,5");
+        button1.setVisible(true);
+        //Set methods for mouse events
+        //Call defined methods
+        button1.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 0;
+                    inty = 5;                
+                }
+                else {
+                    intbx = 0;
+                    intby = 5;
+                }
+            }
+        }
+        );     
+        button10 = new JButton();
+        button10.setBounds(305,55,90,35);
+        button10.setBackground(new Color(214,217,223));
+        button10.setForeground(new Color(0,0,0));
+        button10.setEnabled(true);
+        button10.setFont(new Font("sansserif",0,12));
+        button10.setText("3,4");
+        button10.setVisible(true);
+        button10.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 3;
+                    inty = 4;                
+                }
+                else {
+                    intbx = 3;
+                    intby = 4;
+                }
+            }
+        }
+        ); 
+
+        button11 = new JButton();
+        button11.setBounds(405,55,90,35);
+        button11.setBackground(new Color(214,217,223));
+        button11.setForeground(new Color(0,0,0));
+        button11.setEnabled(true);
+        button11.setFont(new Font("sansserif",0,12));
+        button11.setText("4,4");
+        button11.setVisible(true);
+        button11.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 4;
+                    inty = 4;                
+                }
+                else {
+                    intbx = 4;
+                    intby = 4;
+                }
+            }
+        }
+        ); 
+
+        button12 = new JButton();
+        button12.setBounds(505,55,90,35);
+        button12.setBackground(new Color(214,217,223));
+        button12.setForeground(new Color(0,0,0));
+        button12.setEnabled(true);
+        button12.setFont(new Font("sansserif",0,12));
+        button12.setText("5,4");
+        button12.setVisible(true);
+        button12.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 5;
+                    inty = 4;                
+                }
+                else {
+                    intbx = 5;
+                    intby = 4;
+                }
+            }
+        }
+        ); 
+
+        button13 = new JButton();
+        button13.setBounds(5,105,90,35);
+        button13.setBackground(new Color(214,217,223));
+        button13.setForeground(new Color(0,0,0));
+        button13.setEnabled(true);
+        button13.setFont(new Font("sansserif",0,12));
+        button13.setText("0,3");
+        button13.setVisible(true);
+        button13.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intbx = 0;
+                    intby = 3;                   
+                }
+                else {
+                    intbx = 0;
+                    intby = 3;
+                }
+            }
+        }
+        ); 
+
+        button14 = new JButton();
+        button14.setBounds(105,105,90,35);
+        button14.setBackground(new Color(214,217,223));
+        button14.setForeground(new Color(0,0,0));
+        button14.setEnabled(true);
+        button14.setFont(new Font("sansserif",0,12));
+        button14.setText("1,3");
+        button14.setVisible(true);
+        button14.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 1;
+                    inty = 3;                
+                }
+                else {
+                    intbx = 1;
+                    intby = 3;
+                }
+            }
+        }
+        ); 
+
+        button15 = new JButton();
+        button15.setBounds(205,105,90,35);
+        button15.setBackground(new Color(214,217,223));
+        button15.setForeground(new Color(0,0,0));
+        button15.setEnabled(true);
+        button15.setFont(new Font("sansserif",0,12));
+        button15.setText("2,3");
+        button15.setVisible(true);
+        button15.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 2;
+                    inty = 3;                
+                }
+                else {
+                    intbx = 2;
+                    intby = 3;
+                }
+            }
+        }
+        ); 
+        button16 = new JButton();
+        button16.setBounds(305,105,90,35);
+        button16.setBackground(new Color(214,217,223));
+        button16.setForeground(new Color(0,0,0));
+        button16.setEnabled(true);
+        button16.setFont(new Font("sansserif",0,12));
+        button16.setText("3,3");
+        button16.setVisible(true);
+        button16.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 3;
+                    inty = 3;                
+                }
+                else {
+                    intbx = 3;
+                    intby = 3;
+                }
+            }
+        }
+        ); 
+        
+        button17 = new JButton();
+        button17.setBounds(405,105,90,35);
+        button17.setBackground(new Color(214,217,223));
+        button17.setForeground(new Color(0,0,0));
+        button17.setEnabled(true);
+        button17.setFont(new Font("sansserif",0,12));
+        button17.setText("4,3");
+        button17.setVisible(true);
+        button17.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 4;
+                    inty = 3;                
+                }
+                else {
+                    intbx = 4;
+                    intby = 3;
+                }
+            }
+        }
+        ); 
+
+        button18 = new JButton();
+        button18.setBounds(505,105,90,35);
+        button18.setBackground(new Color(214,217,223));
+        button18.setForeground(new Color(0,0,0));
+        button18.setEnabled(true);
+        button18.setFont(new Font("sansserif",0,12));
+        button18.setText("5,3");
+        button18.setVisible(true);
+        button18.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 5;
+                    inty = 3;                
+                }
+                else {
+                    intbx = 5;
+                    intby = 3;
+                }
+            }
+        }
+        ); 
+        
+        button19 = new JButton();
+        button19.setBounds(5,155,90,35);
+        button19.setBackground(new Color(214,217,223));
+        button19.setForeground(new Color(0,0,0));
+        button19.setEnabled(true);
+        button19.setFont(new Font("sansserif",0,12));
+        button19.setText("0,2");
+        button19.setVisible(true);
+        button19.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 0;
+                    inty = 2;                
+                }
+                else {
+                    intbx = 0;
+                    intby = 2;
+                }
+            }
+        }
+        ); 
+        
+        button2 = new JButton();
+        button2.setBounds(105,5,90,35);
+        button2.setBackground(new Color(214,217,223));
+        button2.setForeground(new Color(0,0,0));
+        button2.setEnabled(true);
+        button2.setFont(new Font("sansserif",0,12));
+        button2.setText("1,5");
+        button2.setVisible(true);
+                button2.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 1;
+                    inty = 5;                
+                }
+                else {
+                    intbx = 1;
+                    intby = 5;
+                }
+            }
+        }
+        ); 
+
+        button20 = new JButton();
+        button20.setBounds(105,155,90,35);
+        button20.setBackground(new Color(214,217,223));
+        button20.setForeground(new Color(0,0,0));
+        button20.setEnabled(true);
+        button20.setFont(new Font("sansserif",0,12));
+        button20.setText("1,2");
+        button20.setVisible(true);
+                button20.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 1;
+                    inty = 2;                
+                }
+                else {
+                    intbx = 1;
+                    intby = 2;
+                }
+            }
+        }
+        ); 
+
+        button21 = new JButton();
+        button21.setBounds(205,155,90,35);
+        button21.setBackground(new Color(214,217,223));
+        button21.setForeground(new Color(0,0,0));
+        button21.setEnabled(true);
+        button21.setFont(new Font("sansserif",0,12));
+        button21.setText("2,2");
+        button21.setVisible(true);
+        button21.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 2;
+                    inty = 2;                
+                }
+                else {
+                    intbx = 2;
+                    intby = 2;
+                }
+            }
+        }
+        ); 
+        button22 = new JButton();
+        button22.setBounds(305,155,90,35);
+        button22.setBackground(new Color(214,217,223));
+        button22.setForeground(new Color(0,0,0));
+        button22.setEnabled(true);
+        button22.setFont(new Font("sansserif",0,12));
+        button22.setText("3,2");
+        button22.setVisible(true);
+                button22.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 3;
+                    inty = 2;                
+                }
+                else {
+                    intbx = 3;
+                    intby = 2;
+                }
+            }
+        }
+        ); 
+
+        button23 = new JButton();
+        button23.setBounds(405,155,90,35);
+        button23.setBackground(new Color(214,217,223));
+        button23.setForeground(new Color(0,0,0));
+        button23.setEnabled(true);
+        button23.setFont(new Font("sansserif",0,12));
+        button23.setText("4,2");
+        button23.setVisible(true);
+                button23.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 4;
+                    inty = 2;                
+                }
+                else {
+                    intbx = 4;
+                    intby = 2;
+                }
+            }
+        }
+        ); 
+
+        button24 = new JButton();
+        button24.setBounds(505,155,90,35);
+        button24.setBackground(new Color(214,217,223));
+        button24.setForeground(new Color(0,0,0));
+        button24.setEnabled(true);
+        button24.setFont(new Font("sansserif",0,12));
+        button24.setText("5,2");
+        button24.setVisible(true);
+                button24.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 5;
+                    inty = 2;                
+                }
+                else {
+                    intbx = 5;
+                    intby = 2;
+                }
+            }
+        }
+        ); 
+
+        button25 = new JButton();
+        button25.setBounds(5,205,90,35);
+        button25.setBackground(new Color(214,217,223));
+        button25.setForeground(new Color(0,0,0));
+        button25.setEnabled(true);
+        button25.setFont(new Font("sansserif",0,12));
+        button25.setText("0,1");
+        button25.setVisible(true);
+                button25.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 0;
+                    inty = 1;                
+                }
+                else {
+                    intbx = 0;
+                    intby = 1;
+                }
+            }
+        }
+        ); 
+
+        button26 = new JButton();
+        button26.setBounds(105,205,90,35);
+        button26.setBackground(new Color(214,217,223));
+        button26.setForeground(new Color(0,0,0));
+        button26.setEnabled(true);
+        button26.setFont(new Font("sansserif",0,12));
+        button26.setText("1,1");
+        button26.setVisible(true);
+                button26.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 1;
+                    inty = 1;                
+                }
+                else {
+                    intbx = 1;
+                    intby = 1;
+                }
+            }
+        }
+        ); 
+
+        button27 = new JButton();
+        button27.setBounds(205,205,90,35);
+        button27.setBackground(new Color(214,217,223));
+        button27.setForeground(new Color(0,0,0));
+        button27.setEnabled(true);
+        button27.setFont(new Font("sansserif",0,12));
+        button27.setText("2,1");
+        button27.setVisible(true);
+                button27.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 2;
+                    inty = 1;                
+                }
+                else {
+                    intbx = 2;
+                    intby = 1;
+                }
+            }
+        }
+        ); 
+
+        button28 = new JButton();
+        button28.setBounds(305,205,90,35);
+        button28.setBackground(new Color(214,217,223));
+        button28.setForeground(new Color(0,0,0));
+        button28.setEnabled(true);
+        button28.setFont(new Font("sansserif",0,12));
+        button28.setText("3,1");
+        button28.setVisible(true);
+                button28.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 3;
+                    inty = 1;                
+                }
+                else {
+                    intbx = 3;
+                    intby = 1;
+                }
+            }
+        }
+        ); 
+
+        button29 = new JButton();
+        button29.setBounds(405,205,90,35);
+        button29.setBackground(new Color(214,217,223));
+        button29.setForeground(new Color(0,0,0));
+        button29.setEnabled(true);
+        button29.setFont(new Font("sansserif",0,12));
+        button29.setText("4,1");
+        button29.setVisible(true);
+                button29.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 4;
+                    inty = 1;                
+                }
+                else {
+                    intbx = 4;
+                    intby = 1;
+                }
+            }
+        }
+        ); 
+
+        button3 = new JButton();
+        button3.setBounds(205,5,90,35);
+        button3.setBackground(new Color(214,217,223));
+        button3.setForeground(new Color(0,0,0));
+        button3.setEnabled(true);
+        button3.setFont(new Font("sansserif",0,12));
+        button3.setText("2,5");
+        button3.setVisible(true);
+                button3.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 2;
+                    inty = 5;                
+                }
+                else {
+                    intbx = 2;
+                    intby = 5;
+                }
+            }
+        }
+        ); 
+
+        button30 = new JButton();
+        button30.setBounds(505,205,90,35);
+        button30.setBackground(new Color(214,217,223));
+        button30.setForeground(new Color(0,0,0));
+        button30.setEnabled(true);
+        button30.setFont(new Font("sansserif",0,12));
+        button30.setText("5,1");
+        button30.setVisible(true);
+                button30.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 5;
+                    inty = 1;                
+                }
+                else {
+                    intbx = 5;
+                    intby = 1;
+                }
+            }
+        }
+        ); 
+
+        button31 = new JButton();
+        button31.setBounds(5,255,90,35);
+        button31.setBackground(new Color(214,217,223));
+        button31.setForeground(new Color(0,0,0));
+        button31.setEnabled(true);
+        button31.setFont(new Font("sansserif",0,12));
+        button31.setText("X = 0 ,Y = 0");
+        button31.setVisible(true);
+                button31.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 0;
+                    inty = 0;                
+                }
+                else {
+                    intbx = 0;
+                    intby = 0;
+                }
+            }
+        }
+        ); 
+
+        button32 = new JButton();
+        button32.setBounds(105,255,90,35);
+        button32.setBackground(new Color(214,217,223));
+        button32.setForeground(new Color(0,0,0));
+        button32.setEnabled(true);
+        button32.setFont(new Font("sansserif",0,12));
+        button32.setText("1,0");
+        button32.setVisible(true);
+                button32.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 1;
+                    inty = 0;                
+                }
+                else {
+                    intbx = 1;
+                    intby = 0;
+                }
+            }
+        }
+        ); 
+
+        button33 = new JButton();
+        button33.setBounds(205,255,90,35);
+        button33.setBackground(new Color(214,217,223));
+        button33.setForeground(new Color(0,0,0));
+        button33.setEnabled(true);
+        button33.setFont(new Font("sansserif",0,12));
+        button33.setText("2,0");
+        button33.setVisible(true);
+                button33.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 2;
+                    inty = 0;                
+                }
+                else {
+                    intbx = 2;
+                    intby = 0;
+                }
+            }
+        }
+        ); 
+
+        button34 = new JButton();
+        button34.setBounds(305,255,90,35);
+        button34.setBackground(new Color(214,217,223));
+        button34.setForeground(new Color(0,0,0));
+        button34.setEnabled(true);
+        button34.setFont(new Font("sansserif",0,12));
+        button34.setText("3,0");
+        button34.setVisible(true);
+                button34.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 3;
+                    inty = 0;                
+                }
+                else {
+                    intbx = 3;
+                    intby = 0;
+                }
+            }
+        }
+        ); 
+
+        button35 = new JButton();
+        button35.setBounds(405,255,90,35);
+        button35.setBackground(new Color(214,217,223));
+        button35.setForeground(new Color(0,0,0));
+        button35.setEnabled(true);
+        button35.setFont(new Font("sansserif",0,12));
+        button35.setText("4,0");
+        button35.setVisible(true);
+                button35.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 4;
+                    inty = 0;                
+                }
+                else {
+                    intbx = 4;
+                    intby = 0;
+                }
+            }
+        }
+        ); 
+
+        button36 = new JButton();
+        button36.setBounds(505,255,90,35);
+        button36.setBackground(new Color(214,217,223));
+        button36.setForeground(new Color(0,0,0));
+        button36.setEnabled(true);
+        button36.setFont(new Font("sansserif",0,12));
+        button36.setText("5,0");
+        button36.setVisible(true);
+                button36.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 5;
+                    inty = 0;                
+                }
+                else {
+                    intbx = 5;
+                    intby = 0;
+                }
+            }
+        }
+        ); 
+
+        button4 = new JButton();
+        button4.setBounds(305,5,90,35);
+        button4.setBackground(new Color(214,217,223));
+        button4.setForeground(new Color(0,0,0));
+        button4.setEnabled(true);
+        button4.setFont(new Font("sansserif",0,12));
+        button4.setText("3,5");
+        button4.setVisible(true);
+                button4.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 3;
+                    inty = 5;                
+                }
+                else {
+                    intbx = 3;
+                    intby = 5;
+                }
+            }
+        }
+        ); 
+
+        button5 = new JButton();
+        button5.setBounds(405,5,90,35);
+        button5.setBackground(new Color(214,217,223));
+        button5.setForeground(new Color(0,0,0));
+        button5.setEnabled(true);
+        button5.setFont(new Font("sansserif",0,12));
+        button5.setText("4,5");
+        button5.setVisible(true);
+                button5.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 4;
+                    inty = 5;                
+                }
+                else {
+                    intbx = 4;
+                    intby = 5;
+                }
+            }
+        }
+        ); 
+
+        button6 = new JButton();
+        button6.setBounds(505,5,90,35);
+        button6.setBackground(new Color(214,217,223));
+        button6.setForeground(new Color(0,0,0));
+        button6.setEnabled(true);
+        button6.setFont(new Font("sansserif",0,12));
+        button6.setText("5,5");
+        button6.setVisible(true);
+                button6.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 5;
+                    inty = 5;                
+                }
+                else {
+                    intbx = 5;
+                    intby = 5;
+                }
+            }
+        }
+        ); 
+
+        button7 = new JButton();
+        button7.setBounds(5,55,90,35);
+        button7.setBackground(new Color(214,217,223));
+        button7.setForeground(new Color(0,0,0));
+        button7.setEnabled(true);
+        button7.setFont(new Font("sansserif",0,12));
+        button7.setText("0,4");
+        button7.setVisible(true);
+                button7.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 0;
+                    inty = 4;                
+                }
+                else {
+                    intbx = 0;
+                    intby = 4;
+                }
+            }
+        }
+        ); 
+
+        button8 = new JButton();
+        button8.setBounds(105,55,90,35);
+        button8.setBackground(new Color(214,217,223));
+        button8.setForeground(new Color(0,0,0));
+        button8.setEnabled(true);
+        button8.setFont(new Font("sansserif",0,12));
+        button8.setText("1,4");
+        button8.setVisible(true);
+                button8.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 1;
+                    inty = 4;                
+                }
+                else {
+                    intbx = 1;
+                    intby = 4;
+                }
+            }
+        }
+        ); 
+
+        button9 = new JButton();
+        button9.setBounds(205,55,90,35);
+        button9.setBackground(new Color(214,217,223));
+        button9.setForeground(new Color(0,0,0));
+        button9.setEnabled(true);
+        button9.setFont(new Font("sansserif",0,12));
+        button9.setText("2,4");
+        button9.setVisible(true);
+                button9.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                if(intx == 10) {
+                    intx = 2;
+                    inty = 4;                
+                }
+                else {
+                    intbx = 2;
+                    intby = 4;
+                }
+            }
+        }
+        ); 
+        
+        button37 = new JButton();
+        button37.setBounds(255,305,100,40);
+        button37.setBackground(new Color(214,217,223));
+        button37.setForeground(new Color(0,0,0));
+        button37.setEnabled(true);
+        button37.setFont(new Font("sansserif",0,12));
+        button37.setText("GeefRoute");
+        button37.setVisible(true);
+        button37.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+             routeplanner.berekenRoute(intbx, intby, intx, inty, 0);
+            }
+        }
+        ); 
+        
+        button38 = new JButton();
+        button38.setBounds(190,365,100,40);
+        button38.setBackground(new Color(214,217,223));
+        button38.setForeground(new Color(0,0,0));
+        button38.setEnabled(true);
+        button38.setFont(new Font("sansserif",0,12));
+        button38.setText("RESET");
+        button38.setVisible(true);
+        button38.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                    intx = 10;
+                    inty = 10; 
+                    intbx = 10;
+                    intby = 10; 
+            }
+        }
+        ); 
+        
+        button39 = new JButton();
+        button39.setBounds(320,365,100,40);
+        button39.setBackground(new Color(214,217,223));
+        button39.setForeground(new Color(0,0,0));
+        button39.setEnabled(true);
+        button39.setFont(new Font("sansserif",0,12));
+        button39.setText("Print");
+        button39.setVisible(true);
+        button39.addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent evt) {
+                    System.out.println("start x = " + intx );
+                    System.out.println("start y = " + inty );
+                    System.out.println("eind x = " + intbx );
+                    System.out.println("eind y = " + intby );
+            }
+        }
+        ); 
+        
+
+
+        
+
+        //adding components to contentPane panel
+        contentPane.add(button1);
+        contentPane.add(button10);
+        contentPane.add(button11);
+        contentPane.add(button12);
+        contentPane.add(button13);
+        contentPane.add(button14);
+        contentPane.add(button15);
+        contentPane.add(button16);
+        contentPane.add(button17);
+        contentPane.add(button18);
+        contentPane.add(button19);
+        contentPane.add(button2);
+        contentPane.add(button20);
+        contentPane.add(button21);
+        contentPane.add(button22);
+        contentPane.add(button23);
+        contentPane.add(button24);
+        contentPane.add(button25);
+        contentPane.add(button26);
+        contentPane.add(button27);
+        contentPane.add(button28);
+        contentPane.add(button29);
+        contentPane.add(button3);
+        contentPane.add(button30);
+        contentPane.add(button31);
+        contentPane.add(button32);
+        contentPane.add(button33);
+        contentPane.add(button34);
+        contentPane.add(button35);
+        contentPane.add(button36);
+        contentPane.add(button4);
+        contentPane.add(button5);
+        contentPane.add(button6);
+        contentPane.add(button7);
+        contentPane.add(button8);
+        contentPane.add(button9);
+        contentPane.add(button37);
+        contentPane.add(button38);
+        contentPane.add(button39);
+        //adding panel to JFrame and seting of window position and close operation
+        getContentPane().add(contentPane);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        pack();
+        setVisible(true);
+    }
+
+
+
+
+     public static void main(String[] args){
+        System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new ManualRoutePlanner();
+                
+            }
+        });
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+}
