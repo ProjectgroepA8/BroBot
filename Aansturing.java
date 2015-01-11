@@ -9,10 +9,10 @@ public class Aansturing
    private int ex;
    private int ey;
    public String coordinaten;
-   public Aansturing(int maxx, int maxy)
+   public Aansturing()
    {
-       this.maxx = maxx;
-       this.maxy = maxy;
+       maxx = 0;
+       maxy = 0;
        rotation = 0;
        x = 0;
        y = 0;
@@ -144,8 +144,10 @@ public class Aansturing
        }
        return "bestemming bereikt " + geefCoordinaten();
    }
-   public char[] berekenRoute(int eindx, int eindy, int beginx, int beginy, int rotatie)
+   public char[] berekenRoute(int eindx, int eindy, int beginx, int beginy, int rotatie, int maxy1, int maxx1)
    {
+		maxx = maxx1;
+		maxy = maxy1;
        char[] route = new char[40];
        int teller = 0;
        int links = 0;

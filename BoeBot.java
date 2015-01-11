@@ -37,7 +37,13 @@ public class BoeBot{
                 int btcode = 0;
                 while(true){
                         btcode = bluetooth.checkBt();
-                        if(btcode == 2){
+						if (btcode == 3)
+						{
+							System.out.println("Coördinaten ontvangen!");
+							bluetooth.filterData();
+						}
+							
+                        else if(btcode == 2){
                           System.out.println("Route ontvangen!");
                           route = bluetooth.getRoute();
                           routeAfgerond = true;
