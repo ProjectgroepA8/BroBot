@@ -13,6 +13,7 @@ public class BoeBot{
         boolean routeAfgerond;
 
         char[] route;
+		int[] coordinates;
         static int currentCase = 4;
         static int currentStep = 0;
 
@@ -37,14 +38,14 @@ public class BoeBot{
                 int btcode = 0;
                 while(true){
                         btcode = bluetooth.checkBt();
-						if (btcode == 3)
-						{
+						if(btcode == 3){
 							System.out.println("Coördinaten ontvangen!");
-							bluetooth.filterData();
-						}
-							
-                        else if(btcode == 2){
-                          System.out.println("Route ontvangen!");
+							coordinates = bluetooth.getCoordinates();
+							aansturing.berekenRoute(coordinats[0], coordinats[1], coordinats[2], coordinats[3], coordinats[4], coordinats[5], coordinats[6]);
+							routeAfgerond = true;
+							currentStep = 0;
+                        }else if(btcode == 2){
+						  System.out.println("Route ontvangen!");
                           route = bluetooth.getRoute();
                           routeAfgerond = true;
                           currentStep = 0;

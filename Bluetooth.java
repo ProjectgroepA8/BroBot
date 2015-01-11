@@ -38,7 +38,29 @@ public class Bluetooth
             i ++;
           }
         }
-      }
+		
+		if (tempChar == '!')
+		{
+			int i = 0;
+			clearRoute();
+
+			while (true)
+			{
+			  if (rxUart.byteAvailable())
+			  {
+				tempChar = (char)rxUart.receiveByte();
+
+				if(tempChar == '!')
+				{
+				  route[i] = tempChar;
+				  return 3;
+				}
+
+				route[i] = tempChar;
+				i ++;
+			  }
+			}
+		}
 
       else if ((tempChar == 'a') || (tempChar =='v') || (tempChar == 'l') || (tempChar == 'r') || (tempChar == 's'))
       {
@@ -55,6 +77,51 @@ public class Bluetooth
   public char[] getRoute()
   {
     return route;
+  }
+  
+  public int[] getCoordinates()
+  {
+	String[] dataString = new String[40];
+    int[] dataInt = new int[7];
+    String coordinate = "";
+    int StringArrayCount = 0;
+    int intArrayCount = 0;
+	
+	for (int i = 0; route.length > i; i ++)
+    { 
+      if (route[i] != ',' && route[i] != '!')
+      {
+        coordinate += String.valueOf(route[i]);
+      }
+
+      if (route[i] == ',')
+      {
+        dataString[StringArrayCount] = coordinate;
+        coordinate = "";
+        StringArrayCount ++;
+      }
+      
+      if (route[i] == '!')
+      {
+          i = route.length;
+		  StringArrayCount = 0;
+      }
+    }
+
+    for (int i = 0; dataString.length > i; i ++)
+    {
+        if (dataString[i] != null)
+        {
+            dataInt[intArrayCount] = Integer.parseInt(dataString[i]);
+            intArrayCount ++;
+        }
+        
+        if (dataString[i] == null)
+        {
+			intArrayCount = 0;
+			return dataInt;
+        }
+    }
   }
 
   public int getromoteControl()
