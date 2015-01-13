@@ -113,6 +113,21 @@ public class AfstandbedieningPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				bluetooth.writeString(""+charac);
 			}
+		button.addKeyListener(new KeyListener() {			
+			@Override
+			public void keyTyped(KeyEvent e) {				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				//bluetooth.writeString(""+charac);			
+			}
+		});	
+		
 			
 		});
 		return button;
