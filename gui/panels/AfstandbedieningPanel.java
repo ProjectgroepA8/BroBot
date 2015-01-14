@@ -1,11 +1,12 @@
-package panels;
+package panel;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -37,8 +38,7 @@ public class AfstandbedieningPanel extends JPanel {
 		boolean[]array = {false,true,false,
 						  true,true,true,
 						  false,true,false};
-		char[]characters = {'v','l','s','r','a'};
-		
+		char[]characters = {'v','l','s','r','a'};		
 		makeRichtingPanel(array, characters, plaatjes);
 
 			
@@ -75,12 +75,42 @@ public class AfstandbedieningPanel extends JPanel {
 		JButton toevoegen = new JButton("zet snelheid");
 		toevoegen.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				String st = verzendSnelheid(slider.getValue());
-				bluetooth.writeString(st);
+				verzendSnelheid(slider.getValue());				
 			}
 			
 		});
-		buttonPanel.add(toevoegen);		
+		buttonPanel.add(toevoegen);	
+		
+		this.setFocusable(true);		
+		this.addKeyListener(new KeyListener(){				
+			public void keyTyped(KeyEvent e) {			
+			}					
+			public void keyReleased(KeyEvent e) {				
+			}			
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_UP){
+					//System.out.println("v");
+					bluetooth.writeString('v');
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+					//System.out.println("a");
+					bluetooth.writeString('a');
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+					//System.out.println("l");
+					bluetooth.writeString('l');
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+					//System.out.println("r");
+					bluetooth.writeString('r');
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+					//System.out.println("s");
+					bluetooth.writeString('s');
+				}
+			}
+		});
 		
 	}
 	
@@ -108,28 +138,15 @@ public class AfstandbedieningPanel extends JPanel {
 		JButton button = new JButton(plaatje);
 		button.setContentAreaFilled(false);
 		button.setFocusPainted(false);
+		button.setFocusable(false);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bluetooth.writeString(""+charac);
-			}
-		button.addKeyListener(new KeyListener() {			
-			@Override
-			public void keyTyped(KeyEvent e) {				
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {				
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				//bluetooth.writeString(""+charac);			
-			}
-		});	
-		
-			
+				//bluetooth.writeString(""+charac);
+				System.out.println(charac);
+			}			
 		});
+	
 		return button;
 	}
 	
@@ -163,15 +180,3 @@ public class AfstandbedieningPanel extends JPanel {
 		return st;
 	}
 }
-	
-	
-	
-	
-
-
-
-	
-	
-	
-	
-
