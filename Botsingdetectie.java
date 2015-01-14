@@ -10,21 +10,19 @@ public class Botsingdetectie{
   private boolean VsDetectR;
 
   public Botsingdetectie(){
-      irL = new IrDetectie(8, 9);
-      irR = new IrDetectie(2, 0);
-      vsL = new VsDetectie(7);
-      vsR = new VsDetectie(5);
+      //irL = new IrDetectie(8, 9);
+      //irR = new IrDetectie(2, 0);
+      vsL = new VsDetectie(14);
+      vsR = new VsDetectie(15);
   }
 
   public boolean detectEdge(){
-    IrDetectL = irL.detect();
-    IrDetectR = irR.detect();
-    if(!IrDetectL || !IrDetectR){
-        return true;
-    }else{
+   // IrDetectL = irL.detect();
+   // IrDetectR = irR.detect();
+  //  if(!IrDetectL || !IrDetectR){
+  //      return true;
+  //  }else{
       return false;
-
-    }
   }
 
   public int detectObject(){
