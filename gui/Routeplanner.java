@@ -304,6 +304,11 @@ public class Routeplanner
         }
         return route;
     }
+    
+    public int getRotation() {
+    return rotation;
+    }
+    
     public char[] ontwijkBoebot(int xx, int xy, int x, int y, int rotation)
     {
         this.x = x;
