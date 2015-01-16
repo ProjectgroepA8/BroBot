@@ -1,8 +1,8 @@
-package route;
 
 /**
 *
 */
+import java.util.ArrayList;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,11 +17,12 @@ import javax.swing.border.Border;
 import javax.swing.*;
 
 
+
 public class ManualRoutePlanner extends JFrame {
     private Routeplanner routeplanner;
     
     private JMenuBar menuBar;
-    private JButton button1;
+    
     private JButton button10;
     private JButton button11;
     private JButton button12;
@@ -32,7 +33,7 @@ public class ManualRoutePlanner extends JFrame {
     private JButton button17;
     private JButton button18;
     private JButton button19;
-    private JButton button2;
+    
     private JButton button20;
     private JButton button21;
     private JButton button22;
@@ -43,7 +44,7 @@ public class ManualRoutePlanner extends JFrame {
     private JButton button27;
     private JButton button28;
     private JButton button29;
-    private JButton button3;
+    
     private JButton button30;
     private JButton button31;
     private JButton button32;
@@ -51,9 +52,7 @@ public class ManualRoutePlanner extends JFrame {
     private JButton button34;
     private JButton button35;
     private JButton button36;
-    private JButton button4;
-    private JButton button5;
-    private JButton button6;
+
     private JButton button7;
     private JButton button8;
     private JButton button9;
@@ -65,16 +64,29 @@ public class ManualRoutePlanner extends JFrame {
     private int inty;
     private int intbx;
     private int intby;
+    private int rotatie;
+    
+    private ArrayList<String> route;
     
     
     
     //Constructor 
     public ManualRoutePlanner(){
+        
+        route = new ArrayList<String>();
+        
+        
+        
+        
+        
+        
+        
         final Routeplanner routeplanner = new Routeplanner(10,10);
         intx =  10;
         inty =  10;
         intbx = 10;
         intby = 10;
+        rotatie = 0;
         
         
         
@@ -86,34 +98,28 @@ public class ManualRoutePlanner extends JFrame {
 
         //pane with null layout
         JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(697,598));
+        contentPane.setPreferredSize(new Dimension(700,600));
         contentPane.setBackground(new Color(255,255,204));
 
-
-        button1 = new JButton();
-        button1.setBounds(5,5,90,35);
-        button1.setBackground(new Color(214,217,223));
-        button1.setForeground(new Color(0,0,0));
-        button1.setEnabled(true);
-        button1.setFont(new Font("sansserif",0,12));
-        button1.setText("0,5");
-        button1.setVisible(true);
-        //Set methods for mouse events
-        //Call defined methods
-        button1.addMouseListener(new MouseAdapter() 
+        button37 = new JButton();
+        button37.setBounds(255,305,100,40);
+        button37.setBackground(new Color(214,217,223));
+        button37.setForeground(new Color(0,0,0));
+        button37.setEnabled(true);
+        button37.setFont(new Font("sansserif",0,12));
+        button37.setText("GeefRoute");
+        button37.setVisible(true);
+        button37.addMouseListener(new MouseAdapter() 
         {
             public void mouseClicked(MouseEvent evt) {
-                if(intx == 10) {
-                    intx = 0;
-                    inty = 5;                
-                }
-                else {
-                    intbx = 0;
-                    intby = 5;
-                }
+             routeplanner.berekenRoute(intbx, intby, intx, inty, rotatie);
+             rotatie = routeplanner.getRotation();
+             
             }
         }
-        );     
+        ); 
+        
+        
         button10 = new JButton();
         button10.setBounds(305,55,90,35);
         button10.setBackground(new Color(214,217,223));
@@ -343,28 +349,7 @@ public class ManualRoutePlanner extends JFrame {
         }
         ); 
         
-        button2 = new JButton();
-        button2.setBounds(105,5,90,35);
-        button2.setBackground(new Color(214,217,223));
-        button2.setForeground(new Color(0,0,0));
-        button2.setEnabled(true);
-        button2.setFont(new Font("sansserif",0,12));
-        button2.setText("1,5");
-        button2.setVisible(true);
-                button2.addMouseListener(new MouseAdapter() 
-        {
-            public void mouseClicked(MouseEvent evt) {
-                if(intx == 10) {
-                    intx = 1;
-                    inty = 5;                
-                }
-                else {
-                    intbx = 1;
-                    intby = 5;
-                }
-            }
-        }
-        ); 
+
 
         button20 = new JButton();
         button20.setBounds(105,155,90,35);
@@ -595,28 +580,7 @@ public class ManualRoutePlanner extends JFrame {
         }
         ); 
 
-        button3 = new JButton();
-        button3.setBounds(205,5,90,35);
-        button3.setBackground(new Color(214,217,223));
-        button3.setForeground(new Color(0,0,0));
-        button3.setEnabled(true);
-        button3.setFont(new Font("sansserif",0,12));
-        button3.setText("2,5");
-        button3.setVisible(true);
-                button3.addMouseListener(new MouseAdapter() 
-        {
-            public void mouseClicked(MouseEvent evt) {
-                if(intx == 10) {
-                    intx = 2;
-                    inty = 5;                
-                }
-                else {
-                    intbx = 2;
-                    intby = 5;
-                }
-            }
-        }
-        ); 
+
 
         button30 = new JButton();
         button30.setBounds(505,205,90,35);
@@ -779,74 +743,8 @@ public class ManualRoutePlanner extends JFrame {
         }
         ); 
 
-        button4 = new JButton();
-        button4.setBounds(305,5,90,35);
-        button4.setBackground(new Color(214,217,223));
-        button4.setForeground(new Color(0,0,0));
-        button4.setEnabled(true);
-        button4.setFont(new Font("sansserif",0,12));
-        button4.setText("3,5");
-        button4.setVisible(true);
-                button4.addMouseListener(new MouseAdapter() 
-        {
-            public void mouseClicked(MouseEvent evt) {
-                if(intx == 10) {
-                    intx = 3;
-                    inty = 5;                
-                }
-                else {
-                    intbx = 3;
-                    intby = 5;
-                }
-            }
-        }
-        ); 
 
-        button5 = new JButton();
-        button5.setBounds(405,5,90,35);
-        button5.setBackground(new Color(214,217,223));
-        button5.setForeground(new Color(0,0,0));
-        button5.setEnabled(true);
-        button5.setFont(new Font("sansserif",0,12));
-        button5.setText("4,5");
-        button5.setVisible(true);
-                button5.addMouseListener(new MouseAdapter() 
-        {
-            public void mouseClicked(MouseEvent evt) {
-                if(intx == 10) {
-                    intx = 4;
-                    inty = 5;                
-                }
-                else {
-                    intbx = 4;
-                    intby = 5;
-                }
-            }
-        }
-        ); 
-
-        button6 = new JButton();
-        button6.setBounds(505,5,90,35);
-        button6.setBackground(new Color(214,217,223));
-        button6.setForeground(new Color(0,0,0));
-        button6.setEnabled(true);
-        button6.setFont(new Font("sansserif",0,12));
-        button6.setText("5,5");
-        button6.setVisible(true);
-                button6.addMouseListener(new MouseAdapter() 
-        {
-            public void mouseClicked(MouseEvent evt) {
-                if(intx == 10) {
-                    intx = 5;
-                    inty = 5;                
-                }
-                else {
-                    intbx = 5;
-                    intby = 5;
-                }
-            }
-        }
-        ); 
+        
 
         button7 = new JButton();
         button7.setBounds(5,55,90,35);
@@ -917,22 +815,7 @@ public class ManualRoutePlanner extends JFrame {
         }
         ); 
         
-        button37 = new JButton();
-        button37.setBounds(255,305,100,40);
-        button37.setBackground(new Color(214,217,223));
-        button37.setForeground(new Color(0,0,0));
-        button37.setEnabled(true);
-        button37.setFont(new Font("sansserif",0,12));
-        button37.setText("GeefRoute");
-        button37.setVisible(true);
-        button37.addMouseListener(new MouseAdapter() 
-        {
-            public void mouseClicked(MouseEvent evt) {
-             routeplanner.berekenRoute(intbx, intby, intx, inty, 0);
-            }
-        }
-        ); 
-        
+
         button38 = new JButton();
         button38.setBounds(190,365,100,40);
         button38.setBackground(new Color(214,217,223));
@@ -976,7 +859,7 @@ public class ManualRoutePlanner extends JFrame {
         
 
         //adding components to contentPane panel
-        contentPane.add(button1);
+        
         contentPane.add(button10);
         contentPane.add(button11);
         contentPane.add(button12);
@@ -987,7 +870,7 @@ public class ManualRoutePlanner extends JFrame {
         contentPane.add(button17);
         contentPane.add(button18);
         contentPane.add(button19);
-        contentPane.add(button2);
+     
         contentPane.add(button20);
         contentPane.add(button21);
         contentPane.add(button22);
@@ -998,7 +881,7 @@ public class ManualRoutePlanner extends JFrame {
         contentPane.add(button27);
         contentPane.add(button28);
         contentPane.add(button29);
-        contentPane.add(button3);
+
         contentPane.add(button30);
         contentPane.add(button31);
         contentPane.add(button32);
@@ -1006,9 +889,7 @@ public class ManualRoutePlanner extends JFrame {
         contentPane.add(button34);
         contentPane.add(button35);
         contentPane.add(button36);
-        contentPane.add(button4);
-        contentPane.add(button5);
-        contentPane.add(button6);
+
         contentPane.add(button7);
         contentPane.add(button8);
         contentPane.add(button9);
