@@ -9,6 +9,8 @@ import gnu.io.UnsupportedCommOperationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+
 // Com1Writer.java 1.1 12/02/22  voor BlueJ omgeving
 // @author Jan Woolderink
 // @author Johan Talboom
@@ -76,4 +78,20 @@ public class ComWriter
             outputStream.write(tekst.getBytes());
         } catch (IOException e) {}        
     }
+	//route verzenden naar de boebot
+	public void sendRoute(ArrayList<Character> route){
+		String routestring = "?";
+		for(Character step:route){
+			routestring = routestring + step;
+		}
+		routestring = routestring + "?";
+		writeString(route.toString());
+	}
+	public void sendSpeed(int snelheid){
+		String st = ""+snelheid;
+		st="f"+(int)((snelheid-1)/10);
+		writeString(st);
+	}
+	
+	
 }

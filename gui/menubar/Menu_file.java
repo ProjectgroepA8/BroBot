@@ -1,6 +1,7 @@
 package menubar;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,21 +21,14 @@ public class Menu_file extends JMenu {
 		opslaanals = new JMenuItem("Opslaan als");
 		
 		afsluiten = new JMenuItem("Afsluiten");
-		afsluiten.addMouseListener(new MouseListener() {
+		afsluiten.addActionListener(new ActionListener() {
 			@Override
-			public void mouseReleased(MouseEvent e) {}
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.exit(0);				
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);	
 			}
-			@Override
-			public void mouseClicked(MouseEvent e) {}
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			@Override
-			public void mouseExited(MouseEvent e) {}
 		});
-		
+			
+	
 		setText("Bestand");
 		addSeparator();
 		

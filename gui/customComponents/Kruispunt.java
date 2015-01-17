@@ -1,35 +1,34 @@
-
+package customComponents;
 /**
  * Write a description of class Kruispunt here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-import java.awt.geom.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 public class Kruispunt extends JLabel
 {       
     BufferedImage kruispunt;
     public Kruispunt() 
     {
-        try{
-            kruispunt = ImageIO.read(new File("kruispunt.png"));
-        }catch (IOException e){
-            
-        }
-        this.repaint();
+    	kruispunt = null;
     }
     public void setBoebot(int rotation)
     {
         if(rotation == 90)
         {
         try{
-            kruispunt = ImageIO.read(new File("boebot.png"));
+            kruispunt = ImageIO.read(new File("src/pictures/boebot.png"));
         }catch (IOException e){
             
         }
@@ -37,7 +36,7 @@ public class Kruispunt extends JLabel
         if(rotation == 0)
         {
         try{
-            kruispunt = ImageIO.read(new File("boven boebot.png"));
+            kruispunt = ImageIO.read(new File("src/pictures/boven boebot.png"));
         }catch (IOException e){
             
         }
@@ -45,7 +44,7 @@ public class Kruispunt extends JLabel
         if(rotation == 180)
         {
         try{
-            kruispunt = ImageIO.read(new File("onder boebot.png"));
+            kruispunt = ImageIO.read(new File("src/pictures/onder boebot.png"));
         }catch (IOException e){
             
         }
@@ -53,7 +52,7 @@ public class Kruispunt extends JLabel
         if(rotation == 270)
         {
         try{
-            kruispunt = ImageIO.read(new File("links boebot.png"));
+            kruispunt = ImageIO.read(new File("src/pictures/links boebot.png"));
         }catch (IOException e){
             
         }
@@ -63,7 +62,7 @@ public class Kruispunt extends JLabel
     public void setGat()
     {
         try{
-            kruispunt = ImageIO.read(new File("gat.png"));
+            kruispunt = ImageIO.read(new File("src/pictures/gat.png"));
         }catch (IOException e){
             
         }
@@ -72,7 +71,7 @@ public class Kruispunt extends JLabel
     public void setFinish()
     {
         try{
-            kruispunt = ImageIO.read(new File("finish.png"));
+            kruispunt = ImageIO.read(new File("src/pictures/finish.png"));
         }catch (IOException e){
             
         }
@@ -81,6 +80,12 @@ public class Kruispunt extends JLabel
     protected void paintComponent(Graphics g){
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      g2.drawImage(kruispunt, 0, 0, null);
+      g2.setStroke(new BasicStroke(3));
+      Shape horLine = new Line2D.Double(0,getHeight()/2,getWidth(),getHeight()/2);
+      Shape verLine = new Line2D.Double(getWidth()/2,0,getWidth()/2,getHeight());
+      g2.draw(horLine);
+      g2.draw(verLine);
+      
+      g2.drawImage(kruispunt, 0, 0, getWidth(), getHeight(), null);
     }
 }
