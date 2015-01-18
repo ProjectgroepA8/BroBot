@@ -35,7 +35,7 @@ public class RouteSplitpaneCurrentLocation extends JPanel
        content = new JPanel(new GridLayout(1,1));
        menubar = new JPanel();
        map = new ArrayList<ArrayList<Kruispunt>>();
-       //boeboet
+       //boebot
        this.ox = 2;
        this.oy = 2;
        this.orotation = 90;
@@ -88,15 +88,15 @@ public class RouteSplitpaneCurrentLocation extends JPanel
            {
                map.get(row).add(new Kruispunt());
                Kruispunt kruispunt = map.get(row).get(col);
-               if(row == (y - ey) && col == ex)
+               if(row == (y - ey -1) && col == ex)
                {
                    kruispunt.setFinish();
                }
-               if(row == (y - oy) && col == ox)
+               if(row == (y - oy - 1) && col == ox)
                {
                    kruispunt.setBoebot(orotation);
                }
-               if(row == (y - xy) && col == xx)
+               if(row == (y - xy -1) && col == xx)
                {
                    kruispunt.setGat();
                }
@@ -106,7 +106,7 @@ public class RouteSplitpaneCurrentLocation extends JPanel
    }
    public void setGridsize(int x, int y){
 	   this.x = x;
-	   this.y = y;
+	   this.y = y + 1;
 	   refresh();
    }
    public void setBoebot(int x,  int y, int o){
