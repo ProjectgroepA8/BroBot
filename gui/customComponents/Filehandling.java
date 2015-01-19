@@ -64,6 +64,7 @@ public class Filehandling {
 	    
 	    file.add("broboticsrouteplanner");
 	    file.add(maxx+","+maxy);
+	    System.out.println(maxx);
 	    file.add(routestring + ";");
 	    try {
 			Files.write(path, file, ENCODING);

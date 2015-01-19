@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -28,68 +29,83 @@ public class MainMenu extends JPanel{
 	ComWriter bluetooth;
 	Remote remote;
 	Filehandling file;
-	
 	String currentRouteFile;
-	int maxx, maxy;
-	ArrayList<ArrayList<Integer>> currentRouteCoordinates;
-	ArrayList<Character> currentRouteSteps;
-	
+	boolean startup;
+	 
 	public MainMenu(){
     	menubar = new Menubar();
     	routeSplitpane = new RouteSplitpane();
     	iconbar = new Iconbar();
     	file = new Filehandling();
-    	//bluetooth = new ComWriter();
+    	bluetooth = new ComWriter();
     	remote = new Remote(new AfstandbedieningPanel(bluetooth));
-    	remote.dispose();
-    	
     	
     	setLayout(new BorderLayout(0,0));
     	add(menubar, BorderLayout.NORTH);
     	add(routeSplitpane);
-    	add(iconbar, BorderLayout.SOUTH);
-    	add(iconbar, BorderLayout.SOUTH);
-    	
-    	currentRouteCoordinates = new ArrayList<ArrayList<Integer>>();
-    	currentRouteSteps = new ArrayList<Character>();    	
-    	
-    	
+    	add(iconbar, BorderLayout.SOUTH);	
     	menubarMouseListeners();	
     	
     	currentRouteFile = "";
+    	startup = true;
     	iconbar.currentroute.setText("Geen bestand");  
     	menubar.menu_file.opslaan.setEnabled(false);
-    	menubar.menu_file.opslaanals.setEnabled(false);
+    	menubar.menu_file.opslaanals.setEnabled(false);  
     	
-    	}
+    	Thread bt = new Thread(){
+    		public void run(){
+    			char c;
+    			while(true){
+    				try {
+						c = (char) bluetooth.getInput().read();
+						if(c == 'b'){
+							iconbar.setMessage("Botsing gedetecteerd!", 2000);
+						}else if(c == 'g'){
+							iconbar.setMessage("Gat gedetecteerd!", 2000);
+						}else if(c == 'k');
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+    			}
+    		}
+    		
+    	};
+    	bt.start();
+	}
+    	
  
-
-    
     public String getCurrentRouteFile() {
 		return currentRouteFile;
 	}
     
     //methode om een route in te laden of om een nieuwe route aan te maken.
 	public void setCurrentRouteFile(String route, ArrayList<ArrayList<Integer>> tempcorarray ){
-		int c = JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de huidige route wilt afsluiten?", "Alert: " + "Weet u het zeker?", JOptionPane.YES_NO_OPTION);  
+		int c;
+		if(startup){
+			c = 0;
+			startup = false;
+		}else{
+			c = JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de huidige route wilt afsluiten?", "Alert: " + "Weet u het zeker?", JOptionPane.YES_NO_OPTION);  
+		}
     	if (c == JOptionPane.YES_OPTION) {
 	        	if(tempcorarray != null){	
-	        		maxx = tempcorarray.get(0).get(0);
-	        		maxy = tempcorarray.get(0).get(1);
-		        	routeSplitpane.rightpanel.setGridsize(maxx, maxy);
+	        		// route openen via bestand
+	        		int maxx = tempcorarray.get(0).get(0);
+	        		int maxy = tempcorarray.get(0).get(1);
+
 		    		iconbar.currentGridSize.setText( maxx + " x " + maxy);
-		        	tempcorarray.remove(0);
-		        	currentRouteCoordinates = tempcorarray;
+		        	tempcorarray.remove(0);	
+		        	routeSplitpane.setFieldSize(maxx, maxy, tempcorarray);
 		        	currentRouteFile = route;
 		    		iconbar.currentroute.setText(currentRouteFile);
 		        	menubar.menu_file.opslaan.setEnabled(true);
 		        	menubar.menu_file.opslaanals.setEnabled(true);
 	  	  	  }else{
+	  	  		  // Geen route ingeladen, nieuwe route openen
 	  	  		int[] tempsize = sizePopup();
 	  	  		if(tempsize != null){
-			  	 	routeSplitpane.rightpanel.setGridsize(tempsize[0], tempsize[1]);
+			  	 	routeSplitpane.setFieldSize(tempsize[0], tempsize[1], new ArrayList<ArrayList<Integer>>());
 		    		iconbar.currentGridSize.setText(tempsize[0] + " x " + tempsize[1]);
-		        	currentRouteCoordinates.clear();
 		        	currentRouteFile = "new";
 		    		iconbar.currentroute.setText("Nieuw bestand");
 		        	menubar.menu_file.opslaan.setEnabled(false);
@@ -144,7 +160,7 @@ public class MainMenu extends JPanel{
 		menubar.menu_file.opslaan.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				file.writeRouteFile(maxx, maxy, currentRouteCoordinates, currentRouteFile);				
+				file.writeRouteFile(routeSplitpane.getColumns(), routeSplitpane.getRows(), routeSplitpane.leftpanel.coordinaten, currentRouteFile);				
 			}
 		});
 		menubar.menu_file.opslaanals.addActionListener(new ActionListener() {
@@ -154,7 +170,8 @@ public class MainMenu extends JPanel{
 			      c.setFileFilter(new FileNameExtensionFilter("Route bestanden", "rt"));
 			      int rVal = c.showOpenDialog(MainMenu.this);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
-			    	  file.writeRouteFile(maxx, maxy, currentRouteCoordinates, c.getSelectedFile().getAbsolutePath());
+			    	  file.writeRouteFile(routeSplitpane.getColumns(), routeSplitpane.getRows(), routeSplitpane.leftpanel.coordinaten, c.getSelectedFile().getAbsolutePath());
+			    	  setCurrentRouteFile(c.getSelectedFile().getAbsolutePath(), file.readRouteFile(c.getSelectedFile().getAbsolutePath()));
 			      }		
 			}
 		});
@@ -169,6 +186,30 @@ public class MainMenu extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createRemote();
+			}
+		});
+		routeSplitpane.pauze.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				bluetooth.writeString("p");
+			}
+		});
+		routeSplitpane.hervatten.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				bluetooth.writeString("h");
+			}
+		});
+		routeSplitpane.upload.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				bluetooth.sendRoute(routeSplitpane.leftpanel.steps);
+			}
+		});
+		routeSplitpane.automatisch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				routeSplitpane.automatischBerekenen(iconbar);
 			}
 		});
     }

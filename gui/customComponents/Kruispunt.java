@@ -21,14 +21,14 @@ public class Kruispunt extends JLabel
     BufferedImage kruispunt;
     public Kruispunt() 
     {
-    	kruispunt = null;
+     kruispunt = null;
     }
     public void setBoebot(int rotation)
     {
         if(rotation == 90)
         {
         try{
-            kruispunt = ImageIO.read(new File("src/pictures/boebot.png"));
+            kruispunt = ImageIO.read(new File("pictures/boebot.png"));
         }catch (IOException e){
             
         }
@@ -36,7 +36,7 @@ public class Kruispunt extends JLabel
         if(rotation == 0)
         {
         try{
-            kruispunt = ImageIO.read(new File("src/pictures/boven boebot.png"));
+            kruispunt = ImageIO.read(new File("pictures/boven boebot.png"));
         }catch (IOException e){
             
         }
@@ -44,7 +44,7 @@ public class Kruispunt extends JLabel
         if(rotation == 180)
         {
         try{
-            kruispunt = ImageIO.read(new File("src/pictures/onder boebot.png"));
+            kruispunt = ImageIO.read(new File("pictures/onder boebot.png"));
         }catch (IOException e){
             
         }
@@ -52,26 +52,53 @@ public class Kruispunt extends JLabel
         if(rotation == 270)
         {
         try{
-            kruispunt = ImageIO.read(new File("src/pictures/links boebot.png"));
+            kruispunt = ImageIO.read(new File("pictures/links boebot.png"));
         }catch (IOException e){
             
         }
     }
         this.repaint();
     }
-    public void setGat()
+    public void setGat(int rotation)
     {
+          if(rotation == 90)
+        {
         try{
-            kruispunt = ImageIO.read(new File("src/pictures/gat.png"));
+            kruispunt = ImageIO.read(new File("pictures/gatrechts.png"));
         }catch (IOException e){
             
         }
+    }
+        if(rotation == 0)
+        {
+        try{
+            kruispunt = ImageIO.read(new File("pictures/gatboven.png"));
+        }catch (IOException e){
+            
+        }
+    }
+        if(rotation == 180)
+        {
+        try{
+            kruispunt = ImageIO.read(new File("pictures/gatonder.png"));
+        }catch (IOException e){
+            
+        }
+    }
+        if(rotation == 270)
+        {
+        try{
+            kruispunt = ImageIO.read(new File("pictures/gatlinks.png"));
+        }catch (IOException e){
+            
+        }
+    }
         this.repaint();
     }
     public void setFinish()
     {
         try{
-            kruispunt = ImageIO.read(new File("src/pictures/finish.png"));
+            kruispunt = ImageIO.read(new File("pictures/finish.png"));
         }catch (IOException e){
             
         }

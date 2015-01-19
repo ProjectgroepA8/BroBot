@@ -18,6 +18,7 @@ public class Remote extends JFrame {
 		repaint();
 		this.setContentPane(jp);
 		this.pack();
+		dispose();
 	}
 	
 	private void setup(){
