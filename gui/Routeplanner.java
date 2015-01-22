@@ -1,3 +1,5 @@
+package gui;
+
 public class Routeplanner
 {
     private int rotation;
@@ -353,6 +355,169 @@ public class Routeplanner
             System.out.println("ERROR: obstakel op eindstation");
         }
         teller = 0;
+        return route;
+    }
+    public char[] berekenRouteBoebot(int eindx, int eindy, int beginx, int beginy, int rotatie)
+    {
+        char[] route = new char[40];
+        int teller = 0;
+        int links = 0;
+        rotation = rotatie;
+        lengte = 0;
+        if(eindx <= maxx && eindy <= maxy && eindx >= 0 && eindy >= 0)
+        {
+            ex = eindx;
+            ey = eindy;
+        }else{
+            return route;
+        }
+        if(beginx <= maxx && beginy <= maxy && beginx >= 0 && beginy >= 0)
+        {
+            x = beginx;
+            y = beginy;
+        }else{
+            return route;
+        }
+        while(ex != x)
+        {
+            if(x < ex)
+            {
+                if(rotation == 90)
+                {
+                    vooruit();
+                    route[teller] = 'v';
+                    teller ++;
+                }
+                if(rotation == 0)
+                {
+                    turnright();
+                    vooruit();
+                    route[teller] = 'r';
+                    teller ++;
+                }
+                if(rotation == 270)
+                {
+                    keren();
+                    vooruit();
+                    route[teller] = 'k';
+                    teller ++;
+                }
+                if(rotation == 180)
+                {
+                    turnleft();
+                    vooruit();
+                    route[teller] = 'l';
+                    teller ++;
+                }
+            }
+            else
+            {
+                if(x > ex)
+                {
+                    if(rotation == 270)
+                    {
+                        vooruit();
+                        route[teller] = 'v';
+                        teller ++;
+                    }
+                    if(rotation == 0)
+                    {
+                        turnleft();
+                        vooruit();
+                        route[teller] = 'l';
+                        teller ++;
+                    }
+                    if(rotation == 90)
+                    {
+                        keren();
+                        vooruit();
+                        route[teller] = 'k';
+                        teller ++;
+                    }
+                    if(rotation == 180)
+                    {
+                        turnright();
+                        vooruit();
+                        route[teller] = 'r';
+                        teller ++;
+                    }
+                }
+            }
+        }
+        while(ey != y)
+        {
+            if(y < ey)
+            {
+                if(rotation == 0)
+                {
+                    vooruit();
+                    route[teller] = 'v';
+                    teller ++;
+                }
+                if(rotation == 270)
+                {
+                    turnright();
+                    vooruit();
+                    route[teller] = 'r';
+                    teller ++;
+                }
+                if(rotation == 180)
+                {
+                    keren();
+                    vooruit();
+                    route[teller] = 'k';
+                    teller ++;
+                }
+                if(rotation == 90)
+                {
+                    turnleft();
+                    vooruit();
+                    route[teller] = 'l';
+                    teller ++;
+                }
+            }
+            else
+            {
+                if(y > ey)
+                {
+                    if(rotation == 180)
+                    {
+                        vooruit();
+                        route[teller] = 'v';
+                        teller ++;
+                    }
+                    if(rotation == 90)
+                    {
+                        turnright();
+                        vooruit();
+                        route[teller] = 'r';
+                        teller ++;
+                    }
+                    if(rotation == 0)
+                    {
+                        keren();
+                        vooruit();
+                        route[teller] = 'k';
+                        teller ++;
+                    }
+                    if(rotation == 270)
+                    {
+                        turnleft();
+                        vooruit();
+                        route[teller] = 'l';
+                        teller ++;
+                    }
+                }
+            }
+        }
+        lengte = teller;
+        teller = 0;
+        while(teller < lengte)
+        {
+            System.out.println(route[teller]);
+            teller ++;
+        }
+        System.out.println("Planning is met succes gemaakt" + geefCoordinaten());
         return route;
     }
 }
