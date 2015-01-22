@@ -19,6 +19,7 @@ import javax.swing.text.NumberFormatter;
 import menubar.Menubar;
 import windows.Remote;
 import customComponents.ComWriter;
+import customComponents.Filedata;
 import customComponents.Filehandling;
 
 
@@ -58,11 +59,16 @@ public class MainMenu extends JPanel{
     			while(true){
     				try {
 						c = (char) bluetooth.getInput().read();
+						System.out.println(c);
 						if(c == 'b'){
-							iconbar.setMessage("Botsing gedetecteerd!", 2000);
+							iconbar.setMessage("Botsing gedetecteerd!", 3000);
+							routeSplitpane.gat();
 						}else if(c == 'g'){
-							iconbar.setMessage("Gat gedetecteerd!", 2000);
-						}else if(c == 'k');
+							iconbar.setMessage("Gat gedetecteerd!", 3000);
+							routeSplitpane.gat();
+						}else if(c == 'k'){
+							routeSplitpane.kruispunt();
+						};
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -79,7 +85,7 @@ public class MainMenu extends JPanel{
 	}
     
     //methode om een route in te laden of om een nieuwe route aan te maken.
-	public void setCurrentRouteFile(String route, ArrayList<ArrayList<Integer>> tempcorarray ){
+	public void setCurrentRouteFile(String route, Filedata filedata ){
 		int c;
 		if(startup){
 			c = 0;
@@ -88,14 +94,13 @@ public class MainMenu extends JPanel{
 			c = JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de huidige route wilt afsluiten?", "Alert: " + "Weet u het zeker?", JOptionPane.YES_NO_OPTION);  
 		}
     	if (c == JOptionPane.YES_OPTION) {
-	        	if(tempcorarray != null){	
+	        	if(filedata != null){	
 	        		// route openen via bestand
-	        		int maxx = tempcorarray.get(0).get(0);
-	        		int maxy = tempcorarray.get(0).get(1);
+	        		int maxx = filedata.getColumns();
+	        		int maxy = filedata.getRows();
 
 		    		iconbar.currentGridSize.setText( maxx + " x " + maxy);
-		        	tempcorarray.remove(0);	
-		        	routeSplitpane.setFieldSize(maxx, maxy, tempcorarray);
+		        	routeSplitpane.setFieldSize(maxx, maxy, filedata.getCordinates(), filedata.getSteps());
 		        	currentRouteFile = route;
 		    		iconbar.currentroute.setText(currentRouteFile);
 		        	menubar.menu_file.opslaan.setEnabled(true);
@@ -104,7 +109,7 @@ public class MainMenu extends JPanel{
 	  	  		  // Geen route ingeladen, nieuwe route openen
 	  	  		int[] tempsize = sizePopup();
 	  	  		if(tempsize != null){
-			  	 	routeSplitpane.setFieldSize(tempsize[0], tempsize[1], new ArrayList<ArrayList<Integer>>());
+			  	 	routeSplitpane.setFieldSize(tempsize[0], tempsize[1], new ArrayList<ArrayList<Integer>>(), new ArrayList<Character>());
 		    		iconbar.currentGridSize.setText(tempsize[0] + " x " + tempsize[1]);
 		        	currentRouteFile = "new";
 		    		iconbar.currentroute.setText("Nieuw bestand");
@@ -160,7 +165,7 @@ public class MainMenu extends JPanel{
 		menubar.menu_file.opslaan.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				file.writeRouteFile(routeSplitpane.getColumns(), routeSplitpane.getRows(), routeSplitpane.leftpanel.coordinaten, currentRouteFile);				
+				file.writeRouteFile(routeSplitpane.getColumns(), routeSplitpane.getRows(), routeSplitpane.leftpanel.coordinaten, routeSplitpane.leftpanel.steps, currentRouteFile);				
 			}
 		});
 		menubar.menu_file.opslaanals.addActionListener(new ActionListener() {
@@ -170,7 +175,7 @@ public class MainMenu extends JPanel{
 			      c.setFileFilter(new FileNameExtensionFilter("Route bestanden", "rt"));
 			      int rVal = c.showOpenDialog(MainMenu.this);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
-			    	  file.writeRouteFile(routeSplitpane.getColumns(), routeSplitpane.getRows(), routeSplitpane.leftpanel.coordinaten, c.getSelectedFile().getAbsolutePath());
+			    	  file.writeRouteFile(routeSplitpane.getColumns(), routeSplitpane.getRows(), routeSplitpane.leftpanel.coordinaten, routeSplitpane.leftpanel.steps, c.getSelectedFile().getAbsolutePath());
 			    	  setCurrentRouteFile(c.getSelectedFile().getAbsolutePath(), file.readRouteFile(c.getSelectedFile().getAbsolutePath()));
 			      }		
 			}
@@ -181,6 +186,14 @@ public class MainMenu extends JPanel{
 				setCurrentRouteFile("Nieuwe route", null);
 			}
 		});
+		menubar.menu_edit.ongedaan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				routeSplitpane.leftpanel.stepBackwards();
+			}
+		});
+		
 		
 		iconbar.irremote.addActionListener(new ActionListener() {
 			@Override
@@ -203,13 +216,18 @@ public class MainMenu extends JPanel{
 		routeSplitpane.upload.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				routeSplitpane.rightpanel.clear();
+				routeSplitpane.setCurrentstep(0);
 				bluetooth.sendRoute(routeSplitpane.leftpanel.steps);
+				int length = routeSplitpane.leftpanel.coordinaten.size()-1;
+				routeSplitpane.rightpanel.setFinish(routeSplitpane.leftpanel.coordinaten.get(length).get(1), routeSplitpane.leftpanel.coordinaten.get(length).get(0));
+				routeSplitpane.rightpanel.setBoebot(routeSplitpane.leftpanel.coordinaten.get(0).get(1), routeSplitpane.leftpanel.coordinaten.get(0).get(0), 0);
 			}
 		});
 		routeSplitpane.automatisch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				routeSplitpane.automatischBerekenen(iconbar);
+				routeSplitpane.automatischBerekenen();
 			}
 		});
     }

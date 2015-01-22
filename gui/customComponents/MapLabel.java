@@ -11,29 +11,36 @@ public class MapLabel extends JLabel{
 	
 	int x1, y1;
 	public int xcoord, ycoord;
-	private boolean isSelected;
+	private int selected;
 	
 	public MapLabel(int x1, int y1, int xcoord, int ycoord){
 		this.x1 = x1;
 		this.y1 = y1;
 		this.xcoord = xcoord;
 		this.ycoord = ycoord;
+		selected = 0;
 		isSelected(false);
 		setBounds(x1 - 3,y1 - 3, 6, 6);
 		setOpaque(true);
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 	
 	public void isSelected(boolean selected){
 		if(selected){
+			this.selected++;
+		}else{
+			if(this.selected != 0){
+				this.selected--;
+			}
+		}
+		if(isSelected()){
 			setBackground(new Color(255,0,0));
 			setBorder(BorderFactory.createLineBorder(new Color(255,0,0), 1, true));
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 		}else{
 			setBackground(new Color(100, 100, 100));
 			setBorder(BorderFactory.createLineBorder(new Color(80,80,80), 1, true));
-			setCursor(new Cursor(Cursor.HAND_CURSOR));
 		}
-		this.isSelected = selected;
 	}
 	/*public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -51,7 +58,11 @@ public class MapLabel extends JLabel{
 		setY1(y);
 	}
 	public boolean isSelected() {
-		return isSelected;
+		if(selected > 0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public int getX1() {

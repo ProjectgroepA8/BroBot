@@ -10,71 +10,69 @@ public class Bluetooth
 
   char tempChar;
   char[] route = new char[40];
-  char romoteControl = ' ';
+  public char romoteControl = ' ';
+  int speed;
 
-  public int checkBt()
-  {
-    if (rxUart.byteAvailable())
-    {
-      tempChar = (char)rxUart.receiveByte();
-
-      if (tempChar == '?')
-      {
-        int i = 0;
-        clearRoute();
-
-        while (true)
-        {
-          if (rxUart.byteAvailable())
-          {
-            tempChar = (char)rxUart.receiveByte();
-
-            if(tempChar == '?')
-            {
-              return 2;
-            }
-
-            route[i] = tempChar;
-            i ++;
-          }
-
-        }
-
-                }
-        }
-        else if (tempChar == '!')
-        {
+  public int checkBt(){
+        if (rxUart.byteAvailable()){
+                tempChar = (char)rxUart.receiveByte();
+                if (tempChar == '?'){
                         int i = 0;
                         clearRoute();
-
-                        while (true)
-                        {
-                          if (rxUart.byteAvailable())
-                          {
+                        while (true){
+                                if (rxUart.byteAvailable()){
                                         tempChar = (char)rxUart.receiveByte();
-
-                                        if(tempChar == '!')
-                                        {
-                                          route[i] = tempChar;
-                                          return 3;
+                                        if(tempChar == '?'){
+                                                return 2;
                                         }
-
                                         route[i] = tempChar;
                                         i ++;
-                          }
+                                }
                         }
-        }else if ((tempChar == 'a') || (tempChar =='v') || (tempChar == 'l') || (tempChar == 'r') || (tempChar == 's'))
-      {
-        romoteControl = tempChar;
-        return 1;
-      }
+                }else if (tempChar == '!'){
+                        int i = 0;
+                        clearRoute();
+                        while (true){
+                                if (rxUart.byteAvailable()){
+                                        tempChar = (char)rxUart.receiveByte();
+                                        if(tempChar == '!'){
+                                                route[i] = tempChar;
+                                                return 3;
+                                        }
+                                        route[i] = tempChar;
+                                        i ++;
+                                }
+                        }
+        }else if ((tempChar == 'a') || (tempChar =='v') || (tempChar == 'l') || (tempChar == 'r') || (tempChar == 's')){
+                        romoteControl = tempChar;
+                        return 1;
+        }else if ((tempChar == 'p') || (tempChar == 'h')){
+          romoteControl = tempChar;
+            return 5;
 
-       return 0;
-  }
+        } else if (tempChar == 'f'){
+                       while (true){
+                                if (rxUart.byteAvailable()){
+                                      speed = Integer.parseInt(new String(new char[]{(char)rxUart.receiveByte()}));
+                                      return 4;
+                                }
+                }           }
+      }
+      return 0;
+}
 
   public char[] getRoute()
   {
     return route;
+  }
+  public int getSpeed(){
+    if(speed >= 0 && speed <= 9){
+      return (((speed + 1) * 10));
+    }
+    return 0;
+  }
+  public void sendChar(char c){
+   txUart.sendByte(c);
   }
 
   public int[] getCoordinates()
@@ -126,6 +124,9 @@ public class Bluetooth
     return dataInt;
   }
 
+  public char getChar(){
+   return romoteControl;
+  }
   public int getRemoteControl()
   {
     int value = 4;

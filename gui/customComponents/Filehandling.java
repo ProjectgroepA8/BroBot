@@ -19,7 +19,7 @@ public class Filehandling {
 		
 	}
     //route uitlezen uit een file en de file controleren
-	public ArrayList<ArrayList<Integer>> readRouteFile(String aFileName){
+	public Filedata readRouteFile(String aFileName){
 		Path path = Paths.get(aFileName);
 		try {
 			List<String> routebestand = Files.readAllLines(path, ENCODING);
@@ -29,21 +29,28 @@ public class Filehandling {
 			}else{
 				String[] sizesplitarray = routebestand.get(1).split(",");
 				String[] corsplitarray = routebestand.get(2).split(";");
+				String[] stepsplitarray = routebestand.get(3).split(",");
 				
 				ArrayList<ArrayList<Integer>> corarray = new ArrayList<ArrayList<Integer>>();
-				corarray.add(new ArrayList<Integer>());
-				corarray.get(0).add(Integer.parseInt(sizesplitarray[0]));
-				corarray.get(0).add(Integer.parseInt(sizesplitarray[1]));
+				ArrayList<Character> steps = new ArrayList<Character>();
 				
-				int teller = 1;
+				Filedata file = new Filedata();
+				file.setColumns(Integer.parseInt(sizesplitarray[1]));
+				file.setRows(Integer.parseInt(sizesplitarray[0]));
+
 				for(String cor:corsplitarray){
 					String[] temparray = cor.split(",");
-					corarray.add(teller, new ArrayList<Integer>());
-					corarray.get(teller).add(0, Integer.parseInt(temparray[0]));
-					corarray.get(teller).add(1, Integer.parseInt(temparray[1]));
-					teller++;
+					corarray.add(new ArrayList<Integer>());
+					corarray.get(corarray.size()-1).add(0, Integer.parseInt(temparray[0]));
+					corarray.get(corarray.size()-1).add(1, Integer.parseInt(temparray[1]));
 				}
-				return corarray;
+				for(String step:stepsplitarray){
+					steps.add(step.toCharArray()[0]);
+				}
+				file.setCordinates(corarray);
+				file.setSteps(steps);
+				System.out.println(file.getCordinates());
+				return file;
 			}
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Route niet geldig!", "Alert: " + "Fout", JOptionPane.INFORMATION_MESSAGE);
@@ -53,7 +60,7 @@ public class Filehandling {
 	}
 
 	//route file schrijven 
-	public void writeRouteFile(int maxx, int maxy, ArrayList<ArrayList<Integer>> route, String aFileName){
+	public void writeRouteFile(int maxx, int maxy, ArrayList<ArrayList<Integer>> route, ArrayList<Character> steps, String aFileName){
 	    Path path = Paths.get(aFileName);
 	    List<String> file = new ArrayList<String>();
 	    
@@ -62,10 +69,16 @@ public class Filehandling {
 	    	routestring += cor.get(0) + "," + cor.get(1) + ";" ;
 	    }
 	    
+	    String stepstring = "";
+	    for(Character c:steps){
+	    	stepstring += c +",";
+	    }
+	    
 	    file.add("broboticsrouteplanner");
-	    file.add(maxx+","+maxy);
-	    System.out.println(maxx);
-	    file.add(routestring + ";");
+	    file.add(maxx+","+maxy);	
+	    file.add(routestring);
+	    file.add(stepstring);
+	    
 	    try {
 			Files.write(path, file, ENCODING);
 		} catch (IOException e) {

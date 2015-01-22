@@ -4,6 +4,7 @@ import stamp.core.*;
 public class MotorAansturing{
  private int snelheidL;
  private int snelheidR;
+ private int driveSnelheid;
  private boolean richting;
  private PWM motorL, motorR;
 
@@ -18,6 +19,7 @@ public class MotorAansturing{
     snelheidR = snelheid;
  }
   public void setSnelheid(int snelheid){
+    driveSnelheid = snelheid;
     setSnelheidR(snelheid);
     setSnelheidL(snelheid);
  }
@@ -27,9 +29,12 @@ public class MotorAansturing{
   public int getSnelheid(){
     return snelheidL;
  }
+ public int getDriveSnelheid(){
+  return driveSnelheid;
+ }
 
  public void start(){
-    int maxSnelheid = snelheidL;   
+    int maxSnelheid = snelheidL;
     for (int i=0; i<=maxSnelheid; i = i + 10)  {
              setSnelheid(i);
              rijden();

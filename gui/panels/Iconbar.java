@@ -12,8 +12,8 @@ public class Iconbar extends JPanel {
 	public JButton irremote;
 	public JLabel currentroute;
 	public JLabel currentGridSize;
-	private JLabel messages;
-	Timer timer;
+	static private JLabel messages;
+	static Timer timer;
 	
 	public Iconbar(){
 		currentGridSize = new JLabel();
@@ -29,7 +29,7 @@ public class Iconbar extends JPanel {
 		this.add(currentGridSize);
 		this.add(messages);
 	}
-	public void setMessage(String message, int time){
+	public static void setMessage(String message, int time){
 		messages.setText(message);
 		if (time != 0){
 			timer.schedule(new TimerTask() {

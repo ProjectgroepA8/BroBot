@@ -28,22 +28,15 @@ public class RouteSplitpaneDisplay extends JPanel
    private int ex;
    private int ey;
    private JPanel content;
-   JButton pauze, hervatten;
-   JPanel menubar;
    
    public RouteSplitpaneDisplay()
    {
        content = new JPanel(new GridLayout(1,1));
-       menubar = new JPanel();
+      
        map = new ArrayList<ArrayList<Kruispunt>>();
       
-     menubar.setLayout(new GridLayout(1,4));
-  menubar.add(pauze = new JButton("Pauze"));
-  menubar.add(hervatten = new JButton("Hervatten"));
-  
        this.setLayout(new BorderLayout());
        this.add(content, BorderLayout.CENTER);
-       this.add(menubar, BorderLayout.SOUTH);
    }
    public void vorigeStapBoebot()
    {
@@ -79,21 +72,29 @@ public class RouteSplitpaneDisplay extends JPanel
            {
                map.get(row).add(new Kruispunt());
                Kruispunt kruispunt = map.get(row).get(col);
-               if(row == (y - ey -1) && col == ex)
+               if(row == (ey - 1 ) && col == ex)
                {
                    kruispunt.setFinish();
                }
-               if(row == (y - oy - 1) && col == ox)
+               if(row == (oy - 1) && col == ox)
                {
                    kruispunt.setBoebot(orotation);
                }
-               if(row == (y - xy -1) && col == xx)
+               if(row == (xy -1) && col == xx)
                {
                    kruispunt.setGat(xrotation);
                }
                content.add(kruispunt);
            }
        }
+       this.add(content);
+       this.revalidate();
+       this.repaint();
+   }
+   public void clear(){
+	   ox = oy = xx = xy = ex = ey = -1;
+	   System.out.println("test");
+	   refresh();
    }
    public void setGridsize(int x, int y){
     this.x = x;
@@ -102,19 +103,19 @@ public class RouteSplitpaneDisplay extends JPanel
    }
    public void setBoebot(int x,  int y, int o){
     ox = x;
-    oy = y;
+    oy = y+1;
     orotation = o;
     refresh();
    }
    public void setGat(int x, int y, int o){
 	   xx = x;
-	   xy = y;
+	   xy = y + 1;
 	   xrotation = o;
 	   refresh();
    }
    public void setFinish(int x, int y){
 	   ex= x;
-	   ey = y;
+	   ey = y + 1;
 	   refresh();
    }
 }

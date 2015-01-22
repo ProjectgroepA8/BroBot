@@ -21,7 +21,8 @@ public class RouteSplitpane extends JPanel {
 	private int rows, columns;
 	JButton pauze, hervatten, clear, upload, automatisch;
 	JPanel menubar;
-	   
+	int currentstep = 0;   
+	
 	public RouteSplitpane(){	
 		//Linker paneel van de splitPane
 		leftpanel = new RouteSplitpanePlanner();
@@ -46,14 +47,22 @@ public class RouteSplitpane extends JPanel {
 	   	menubar.setLayout(new GridLayout(1,4));
 		
 	   	menubar.add(automatisch = new JButton("Automatische route"));
+	   	automatisch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				leftpanel.setAutomatisch(true);
+			}
+		});
 		menubar.add(upload = new JButton("Upload"));
 	   	menubar.add(clear = new JButton("Clear"));
 	   	clear.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rightpanel.refresh();
-				leftpanel.clear();				
+				rightpanel.clear();
+				leftpanel.clear();
+				currentstep = 0;
 			}
 		});
 	   	menubar.add(pauze = new JButton("Pauze"));
@@ -62,15 +71,32 @@ public class RouteSplitpane extends JPanel {
 		this.add(split, BorderLayout.CENTER);
 		this.add(menubar, BorderLayout.SOUTH);
 	}
-	public void setFieldSize(int y, int x, ArrayList<ArrayList<Integer>> cor){
+	public void setFieldSize(int y, int x, ArrayList<ArrayList<Integer>> cor, ArrayList<Character> steps){
 		rightpanel.setGridsize(x, y);
-    	leftpanel.drawField(x, y, cor);
+    	leftpanel.drawField(x, y, cor, steps);
     	setRows(y);
     	setColumns(x);
 	}
-	public void automatischBerekenen(Iconbar iconbar){
-		iconbar.setMessage("Zet eerste coordinaat", 0);
-		
+	public void automatischBerekenen(){
+		//Iconbar.setMessage("Zet eerste coordinaat", 0);
+	}
+	public void kruispunt(){
+			
+		try{
+			int x =leftpanel.coordinaten.get(currentstep).get(1);
+			int y = leftpanel.coordinaten.get(currentstep).get(0);
+			int o = leftpanel.coordinaten.get(currentstep).get(2);
+			rightpanel.setBoebot(x, y, o);
+			currentstep++;
+		}catch(IndexOutOfBoundsException e){
+			currentstep = 0;
+		}
+	}
+	public void gat(){
+		int x =leftpanel.coordinaten.get(currentstep).get(0);
+		int y = leftpanel.coordinaten.get(currentstep).get(1);
+		int o = leftpanel.coordinaten.get(currentstep).get(2);
+		rightpanel.setGat(x, y, o);
 	}
 	public int getRows() {
 		return rows;
@@ -84,5 +110,8 @@ public class RouteSplitpane extends JPanel {
 	public void setColumns(int columns) {
 		this.columns = columns;
 	}	
+	public void setCurrentstep(int step){
+		this.currentstep = step;
+	}
 	
 }

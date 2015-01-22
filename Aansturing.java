@@ -144,11 +144,11 @@ public class Aansturing
        }
        return "bestemming bereikt " + geefCoordinaten();
    }
-   
+
    public char[] berekenRoute(int eindx, int eindy, int beginx, int beginy, int rotatie, int maxxInput, int maxyInput)
    {
-	   maxx = maxxInput;
-	   maxy = maxyInput;
+           maxx = maxxInput;
+           maxy = maxyInput;
 
        char[] route = new char[40];
        int teller = 0;

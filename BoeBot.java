@@ -11,109 +11,97 @@ public class BoeBot{
         Afstandsbediening afstandsbedieningir;
 
         boolean routeAfgerond;
-
+        boolean routeplannerPauze;
         char[] route;
-		int[] coordinates;
         static int currentCase = 4;
         static int currentStep = 0;
 
         public BoeBot(){
                 motor = new MotorAansturing();
-                afstandsbedieningir = new Afstandsbediening(motor);
-                //botsingdetectie = new Botsingdetectie();
-                aansturing = new Aansturing(4,4);
+                afstandsbedieningir = new Afstandsbediening(motor, 11);
+                botsingdetectie = new Botsingdetectie();
+                aansturing = new Aansturing();
                 lijnvolger = new Lijnvolger();
                 bluetooth = new Bluetooth();
 
                 motor.setSnelheid(100);
                 motor.setRichting(true);
                 routeAfgerond = false;
+                routeplannerPauze = true;
+                int[] coordinates;
 
-                System.out.println("de huidige stappen:" );
-                //variabele om functies in en uit te schakelen.
-                boolean afstandsbediening = true;
-                boolean obstakelDetectie = false;
-                boolean routeplanner = true;
-                boolean sparcours = false;
+
                 int btcode = 0;
                 while(true){
-                        btcode = bluetooth.checkBt();
-						if(btcode == 3){
-							System.out.println("CoÃ¶rdinaten ontvangen!");
-							coordinates = bluetooth.getCoordinates();
-							aansturing.berekenRoute(coordinats[0], coordinats[1], coordinats[2], coordinats[3], coordinats[4], coordinats[5], coordinats[6]);
-							routeAfgerond = true;
-							currentStep = 0;
-                        }else if(btcode == 2){
-						  System.out.println("Route ontvangen!");
-                          route = bluetooth.getRoute();
-                          routeAfgerond = true;
-                          currentStep = 0;
-                          System.out.println(route[3]);
-                        }else if(btcode == 1){
-                          afstandsbedieningir.verwerkSignaal(bluetooth.getAfstandsbediening());
-                        }
-                        if(obstakelDetectie){
-                                obstakelDetectie();
-                        }
-                        if(afstandsbediening){
-                        }
-                        if(routeplanner){
-                          if(routeAfgerond){
-                               routeAfgerond = routeplanner();
-                          }
-                        }
-                        if(sparcours){
 
+                        btcode = bluetooth.checkBt();
+
+                        if(btcode == 3){
+                                System.out.println("Coördinaten ontvangen!");
+                                coordinates = bluetooth.getCoordinates();
+                                for(int i = 0; i <coordinates.length; i++){
+                                 System.out.println(coordinates[i]);
+                                }
+                                route = aansturing.berekenRoute(coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4], coordinates[5], coordinates[6]);
+                                routeAfgerond = true;
+                                currentStep = 0;
+                                for(int i = 0; i < route.length; i++){
+                                  System.out.println(route[i]);
+                                  if(route[i] == ' '){ break;}
+                                }
+                        }else if(btcode == 2){
+                            System.out.println("Route ontvangen!");
+                            route = bluetooth.getRoute();
+                            routeAfgerond = true;
+                            currentStep = 0;
+                            for(int i = 0; i < route.length; i++){
+                                  System.out.println(route[i]);
+                                  if(route[i] == ' '){ break;}
+                                }
+                        }else if(btcode == 1){
+                          afstandsbedieningir.verwerkSignaal(bluetooth.getRemoteControl());
+                        }else if(btcode == 4){
+                          System.out.println("Snelheid: " + bluetooth.getSpeed());
+                          motor.setSnelheid(bluetooth.getSpeed());
+
+                        }else if(btcode == 5){
+                            if(bluetooth.getChar() == 'p'){
+                                 routeplannerPauze = false;
+                                  motor.noodStop();
+                            }else if(bluetooth.getChar() == 'h'){
+                                  System.out.println("test");
+                                  routeplannerPauze = true;
+                                 if(!routeAfgerond){
+                                  routeAfgerond = true;
+                                  currentStep = 0;
+                                  currentCase  = 0;
+                                }
+
+                            }
+                        }
+                        afstandsbedieningir.verwerkSignaal(afstandsbedieningir.detect());
+                        obstakelDetectie();
+                        if(routeplannerPauze){
+                          if(routeAfgerond){
+                                 routeAfgerond = routeplanner();
+                          }
                         }
                         CPU.delay(100);
                 }
         }
         public void obstakelDetectie(){
-                if(botsingdetectie.detectEdge()){
-                        CPU.writePin(CPU.pin1,true);
+                if(botsingdetectie.detectObject() == 1 || botsingdetectie.detectObject() == 2 || botsingdetectie.detectObject() == 3 ){
+                        System.out.println("obstakel gedetecteerd! ");
                         motor.noodStop();
                         motor.setRichting(false);
                         motor.start();
-                        CPU.delay(2000);
                         motor.noodStop();
-                        motor.turn(180);
-                        motor.setRichting(true);
-                        motor.start();
-                }else if(botsingdetectie.detectObject() == 1){
-                        motor.noodStop();
-                        motor.setRichting(false);
-                        motor.start();
-                        CPU.delay(2000);
-                        motor.noodStop();
-                        motor.turn(90);
-                        motor.setRichting(true);
-                        motor.start();
-                }else if(botsingdetectie.detectObject() == 2){
-                        motor.noodStop();
-                        motor.setRichting(false);
-                        motor.start();
-                        CPU.delay(2000);
-                        motor.noodStop();
-                        motor.turn(270);
-                        motor.setRichting(true);
-                        motor.start();
-                }else if(botsingdetectie.detectObject() == 3){
-                        motor.noodStop();
-                        motor.setRichting(false);
-                        motor.start();
-                        CPU.delay(2000);
-                        motor.noodStop();
-                        motor.turn(180);
-                        motor.setRichting(true);
-                        motor.start();
-                }
+                        routeplannerPauze = false;
+                        bluetooth.sendChar('b');
+               }
         }
 
         public boolean routeplanner(){
-               if(currentStep == 0){
-                        verwerkAansturing(route[currentStep]);
-                }
                 int getalLijnvolger = lijnvolger.readSensor();
                 switch(getalLijnvolger){
                         case 0:
@@ -125,33 +113,37 @@ public class BoeBot{
                                 }
                                 break;
                         case 1:
-                                if(currentCase != 1){
-                            motor.setSnelheidL(10);
-                            motor.setSnelheidR(100);
-                            motor.setRichting(true);
-                            motor.rijden();
-                            currentCase = 1;
+                            if(currentCase != 1){
+                              motor.setSnelheidL(10);
+                              motor.setSnelheidR(100);
+                              motor.setRichting(true);
+                              motor.rijden();
+                              currentCase = 1;
                             }
                             break;
                         case 2:
                                 if(currentCase != 2){
-                                        motor.setSnelheidL(100);
-                                        motor.setSnelheidR(10);
-                                        motor.setRichting(true);
-                                        motor.rijden();
-                                        currentCase = 2;
+                                    motor.setSnelheidL(100);
+                                    motor.setSnelheidR(10);
+                                    motor.setRichting(true);
+                                    motor.rijden();
+                                    currentCase = 2;
                                 }
                                 break;
                         case 4:
                                 if(currentCase != 4){
                                         if(route[currentStep] != ' '){
+
                                                 verwerkAansturing(route[currentStep]);
+                                                currentStep++;
+                                                 bluetooth.sendChar('k');
                                                 System.out.println(route[currentStep-1]);
                                                 CPU.delay(1000);
                                                 motor.rijden();
                                         }else{
                                                 motor.noodStop();
                                                 System.out.println("klaar");
+                                                bluetooth.sendChar('f');
                                                 return false;
                                         }
                                         currentCase = 4;
@@ -166,8 +158,9 @@ public class BoeBot{
                                 CPU.delay(1000);
                                 motor.setRichting(false);
                                 motor.rijden();
-                                CPU.delay(3000);
+                                CPU.delay(1000);
                                 motor.noodStop();
+                                 bluetooth.sendChar('g');
                                 return false;
                                // route = ontwijkBoebot(int xx, int xy, int x, int y, int rotation)
                               }
@@ -181,38 +174,35 @@ public class BoeBot{
                 switch(opdracht){
                 case 'v':
                        motor.rijden();
-                       CPU.delay(200);
+                       CPU.delay(100);
                        break;
                 case 'a':
                         CPU.delay(1200);
-            motor.noodStop();
-
-            CPU.delay(200);
-            motor.turn(180);
-            break;
+                        motor.noodStop();
+                      CPU.delay(200);
+                      motor.turn(180);
+                      break;
                 case 'r':
                       motor.setSnelheid(100);
                       motor.setRichting(true);
                       motor.rijden();
-                        CPU.delay(1200);
-            motor.noodStop();
-
-            CPU.delay(200);
-            motor.turn(90);
-            break;
+                      CPU.delay(1200);
+                      motor.noodStop();
+                      CPU.delay(200);
+                      motor.turn(90);
+                      break;
                 case 'l':
                     motor.setSnelheid(100);
-                      motor.setRichting(true);
-                      motor.rijden();
-                        CPU.delay(1200);
-            motor.noodStop();
-            CPU.delay(200);
-            motor.turn(270);
-            break;
-                default:
-            motor.noodStop();
-            break;
+                    motor.setRichting(true);
+                    motor.rijden();
+                    CPU.delay(1200);
+                    motor.noodStop();
+                    CPU.delay(200);
+                    motor.turn(270);
+                    break;
+               default:
+                   motor.noodStop();
+                   break;
                 }
-                currentStep++;
         }
 }
